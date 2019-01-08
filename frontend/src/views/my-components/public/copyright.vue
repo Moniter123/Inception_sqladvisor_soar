@@ -10,6 +10,6 @@
 
 <template>
   <div>
-    <center><span> Copyright © 2018 See </span> </center>
+    <center><span> Copyright © 2018 julive.com </span> </center>
   </div>
 </template>

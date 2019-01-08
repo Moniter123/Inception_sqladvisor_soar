@@ -57,7 +57,7 @@ module.exports = merge(webpackBaseConfig, {
             //匹配代理的url
             '/api': {
             // 目标服务器地址
-              target: 'http://192.168.247.10:200',
+              target: 'http://192.168.234.129',
               //路径重写
               pathRewrite: {'^/api' : '/api'},
               changeOrigin: true

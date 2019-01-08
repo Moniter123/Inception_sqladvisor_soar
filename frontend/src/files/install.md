@@ -240,6 +240,7 @@ python /usr/local/seevenv/see-master/backend/utils/inception_test.py
 Nginx配置里包含了已打包的前端文件，如需自己生成前端文件，可执行以下步骤
 ```bash
 cnpm install
+cnpm install --save vue-markdown
 cnpm install --save-dev vue2-ace-editor
 cnpm install emmet@git+https://github.com/cloud9ide/emmet-core.git#41973fcc70392864c7a469cf5dcd875b88b93d4a
 npm run build  # 打包, 目录 /usr/local/seevenv/see-master/frontend/dist 即是打包后产生的前端文件，用于nginx部署
@@ -283,7 +284,7 @@ python manage.py createsuperuser --username admin --email admin@domain.com
         pass  
 ```
 
-### 8 INSTALL SOAR
+### 8 安装SOAR
 ```bash
 mkdir -p /usr/local/SOAR/bin/
 cp /usr/local/seevenv/see-master/frontend/src/files/soar /usr/local/SOAR/bin
@@ -291,7 +292,16 @@ chmod +x /usr/local/SOAR/bin/soar
 
 ```
 
-### 9 启动所有服务
+### 9 对接统一认证系统
+```bash
+需要自定义访问统一认证接口的方法, 详见文件 /usr/local/seevenv/see-master/backend/utils/unitaryauth.py,
+修改authenticate的内容为自定义的方法即可。
+注意：
+1. 该方法的参数一般为 username, password
+2. 根据请求接口的结果(成功/失败)，定义authenticate的返回值(True/False)即可
+```
+
+### 10 启动所有服务
 ```bash
 # mysql  3306端口
 /etc/init.d/mysqld start

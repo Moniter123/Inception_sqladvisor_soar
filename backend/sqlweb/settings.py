@@ -117,7 +117,8 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
     'account',
     'sqlmng',
-    'workflow'
+    'workflow',
+    'slowquery'
 ]
 
 MIDDLEWARE = [
@@ -192,7 +193,7 @@ DATABASES = {
         'NAME': 'sqlweb',
         'USER': 'root',
         'PASSWORD': '123456',
-        'HOST':'127.0.0.1',
+        'HOST':'192.168.2.74',
         'PORT':'3306',
         'OPTIONS': {'charset':'utf8mb4'},
 	},

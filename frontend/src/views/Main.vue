@@ -14,7 +14,7 @@
                 <div slot="top" class="logo-con">
                     <div v-show="!shrink">
                         <img src="../images/mysql.png" key="max-logo" />
-                        <p style="color:white"><b> See SQL上线平台</b></p>
+                        <p style="color:white"><b> 居理新房SQL上线平台</b></p>
                     </div>
                     <img v-show="shrink" src="../images/logo-min.jpg" key="min-logo" />
                 </div>
@@ -33,7 +33,7 @@
                     </div>
                 </div>
                 <div class="header-avator-con">
-                    <span><a target="_blank" href="https://github.com/myide/see"><b>GitHub</b></a></span>
+                    <!-- <span><a target="_blank" href="https://github.com/myide/see"><b>GitHub</b></a></span> -->
                     <full-screen v-model="isFullScreen" @on-change="fullscreenChange"></full-screen>
                     <theme-switch></theme-switch>
                     
@@ -46,7 +46,7 @@
                                 </a>
                                 <DropdownMenu slot="list">
                                     <DropdownItem name="ownSpace">个人中心</DropdownItem>
-                                    <DropdownItem name="loginout" divided>退出登录</DropdownItem>
+                                    <DropdownItem name="logout" divided>退出登录</DropdownItem>
                                 </DropdownMenu>
                             </Dropdown>
                             <Avatar :src="avatorPath" style="background: #619fe7;margin-left: 10px;"></Avatar>
@@ -144,13 +144,21 @@
                     this.$router.push({
                         name: 'ownspace_index'
                     });
-                } else if (name === 'loginout') {
+                } else if (name === 'logout') {
                     // 退出登录
                     this.$store.commit('logout', this);
                     this.$store.commit('clearOpenedSubmenu');
-                    this.$router.push({
-                        name: 'login'
-                    });
+                    var ishttps = 'https:' == document.location.protocol ? true: false;
+                    var url = window.location.host;
+                    if(ishttps){
+                        url = 'https://' + url;
+                    }else{
+                        url = 'http://' + url;
+                    }
+                    window.location.href=url + '/logout';
+                    // this.$router.push({
+                    //     name: 'login'
+                    // });
                 }
             },
             checkTag (name) {

@@ -114,10 +114,32 @@ class SqlQuery(object):
         return res.stdout.read()
 
     def sql_advisor(self, sql):
-        cmd = "{} -h {} -P {}  -u {} -p '{}' -d {} -q '{};' -v 1".format(self.sqladvisor_cli, self.db.host, self.db.port, self.db.user, self.password, self.db.name, sql)
+        if sql:
+            if sql.find('{')==-1:
+                sqltmp=sql.replace("'",'"')
+            else:
+                sqltmp=sql.replace("'{","j@!ertyu78zqcv")
+                sqltmp=sqltmp.replace("}'","jl@!ertyu78zqcv")
+                sqltmp=sqltmp.replace("'",'"')
+                sqltmp=sqltmp.replace("j@!ertyu78zqcv","'\"'\"'{")
+                sqltmp=sqltmp.replace("jl@!ertyu78zqcv","}'\"'\"'")
+        else:
+            sqltmp=sql
+
+        cmd = "{} -h {} -P {}  -u {} -p '{}' -d {} -q '{};' -v 1".format(self.sqladvisor_cli, self.db.host, self.db.port, self.db.user, self.password, self.db.name, str(sqltmp))
         return self.cmd_res(cmd)
 
     def sql_soar(self, sql, soar_type):
-        cmd = "echo '{}' | {} -test-dsn='{}:{}@{}:{}/{}' {}".format(sql, self.soar_cli, self.db.user, self.password, self.db.host, self.db.port, self.db.name, getattr(SoarParams, soar_type))
+        if sql.find('{')==-1:
+            sqltmp=sql.replace("'",'"')
+        else:
+            sqltmp=sql.replace("'{","j@!ertyu78zqcv")
+            sqltmp=sqltmp.replace("}'","jl@!ertyu78zqcv")
+            sqltmp=sqltmp.replace("'",'"')
+            sqltmp=sqltmp.replace("j@!ertyu78zqcv","'\"'\"'{")
+            sqltmp=sqltmp.replace("jl@!ertyu78zqcv","}'\"'\"'")
+                     
+        cmd = "echo '{}' | {} -test-dsn='{}:{}@{}:{}/{}' -online-dsn='{}:{}@{}:{}/{}' {}".format(str(sqltmp), self.soar_cli, 'root','123456','127.0.0.1','3306','mysql',self.db.user, self.password, self.db.host, self.db.port, self.db.name,getattr(SoarParams, soar_type))
+        #cmd = "echo '{}' | {} -test-dsn='{}:{}@{}:{}/{}' {}".format(sql, self.soar_cli, self.db.user, self.password, self.db.host, self.db.port, self.db.name, getattr(SoarParams, soar_type))
         return self.cmd_res(cmd)
 

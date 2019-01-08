@@ -27,9 +27,20 @@ router.beforeEach((to, from, next) => {
         next(false);
     } else {
         if (!Cookies.get('user') && to.name !== 'login') { // 判断是否已经登录且前往的页面不是登录页
-            next({
-                name: 'login'
-            });
+            if(document.location.toString().indexOf('/admin/login') != -1){
+                next({
+                    name: 'login'
+                });
+            }else{
+                var ishttps = 'https:' == document.location.protocol ? true: false;
+                var url = window.location.host;
+                if(ishttps){
+                    url = 'https://' + url;
+                }else{
+                    url = 'http://' + url;
+                }
+                window.location.href= url + '/login';
+            }
         } else if (Cookies.get('user') && to.name === 'login') { // 判断是否已经登录且前往的是登录页
             Util.title();
             next({

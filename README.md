@@ -1,5 +1,5 @@
 
-# See SQL审核平台
+### See SQL审核平台
 
 ![](https://img.shields.io/badge/build-release-brightgreen.svg)  
 ![](https://img.shields.io/badge/version-v1.0.0-brightgreen.svg)  
@@ -7,6 +7,13 @@
 ![](https://img.shields.io/badge/iview-2.8.0-brightgreen.svg?style=flat-square) 
 ![](https://img.shields.io/badge/python-3.6-brightgreen.svg)
 ![](https://img.shields.io/badge/Django-2.0-brightgreen.svg)
+
+### install
+    进入docker目录
+    docker build -t  sql:latest .
+### 使用
+    docker run -idt  -p 80:80 -v /data/sqldata/nginx/www.conf:/usr/local/nginx/conf/vhosts/www.conf -v /data/www/web:/usr/local/seevenv/see-master -v /data/sqldata/inception/inc.cnf:/etc/inc.cnf --name mysqldocker sql:latest '/etc/rc.local'
+    注意：上面的路径要替换成你的实际路径
 
 ## 功能简介
 

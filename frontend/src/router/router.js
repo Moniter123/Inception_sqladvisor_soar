@@ -38,7 +38,13 @@ export const otherRouter = {
             component: () =>
                 import ('@/views/sql/inceptionDetail.vue'),
         }, // 用户展示图书详情
-
+        {
+            path: 'slowlogquery/:id',
+            title: '慢查询详情',
+            name: 'slowlogDetail',
+            component: () =>
+                import ('@/views/sql/slowlogDetail.vue'),
+        }, // 慢查询
     ]
 };
 
@@ -70,6 +76,43 @@ export const appRouter = [{
             component: () =>
                 import ('@/views/sql/optimize.vue')
         }, ]
+    },
+    {
+        path: '/slowquery',
+        icon: 'load-b',
+        title: '慢查询',
+        name: 'slowquery',
+        component: Main,
+        children: [
+        {
+            path: 'slowList',
+            title: '慢查询处理',
+            name: 'slowList',
+            component: () =>
+                import ('@/views/sql/slowList.vue')
+        },
+        {
+            path: 'slowrecordList',
+            title: '慢查询详细记录',
+            name: 'slowrecordList',
+            component: () =>
+                import ('@/views/sql/slowrecordList.vue')
+        },
+        {
+            path: 'sloworderList',
+            title: '工单列表',
+            name: 'sloworderList',
+            component: () =>
+                import ('@/views/sql/sloworderList.vue')
+        },
+        {
+            path: 'slowmyorderList',
+            title: '我的工单',
+            name: 'slowmyorderList',
+            component: () =>
+                import ('@/views/sql/slowmyorderList.vue')
+        },
+     ]
     },
     {
         path: '/sqlmng',

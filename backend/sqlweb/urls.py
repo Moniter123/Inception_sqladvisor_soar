@@ -32,6 +32,7 @@ urlpatterns = [
     path('api/media/', include('media.urls')),
     path('api/sqlmng/', include('sqlmng.urls')),
     path('api/account/', include('account.urls')),
+    path('api/slowquery/', include('slowquery.urls')),
     path('api/dashboard/', include('dashboard.urls')),
 ]
 

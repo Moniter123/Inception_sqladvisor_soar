@@ -51,9 +51,17 @@ axios.interceptors.response.use(
 
                 case 401: // 拦截验证token失败的请求，清除token信息并跳转到登录页面
                     store.commit('logout')
-                    router.push({
-                        name: 'login'
-                    })
+                    // router.push({
+                    //     name: 'login'
+                    // })
+                    var ishttps = 'https:' == document.location.protocol ? true: false;
+                    var url = window.location.host;
+                    if(ishttps){
+                        url = 'https://' + url;
+                    }else{
+                        url = 'http://' + url;
+                    }
+                    window.location.href= url + '/login';
                     break
 
                 case 403:

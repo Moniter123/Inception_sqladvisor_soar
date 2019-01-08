@@ -12,6 +12,12 @@
                 </p>
                 <div class="form-con">
                     <Form ref="loginForm" :model="form" :rules="rules">
+                        <!-- <FormItem label="登录类型">
+                            <RadioGroup v-model="loginType">
+                                <Radio label="common">普通登录</Radio>
+                                <Radio label="unified">统一认证</Radio>
+                            </RadioGroup>
+                        </FormItem> -->
                         <FormItem prop="userName">
                             <Input v-model="form.userName" placeholder="请输入用户名">
                                 <span slot="prepend">
@@ -30,7 +36,7 @@
                             <Button @click="handleSubmit" type="primary" long>登录</Button>
                         </FormItem>
                     </Form>
-                    <p class="login-tip">输入任意用户名和密码即可</p>
+                    <p class="login-tip"></p>
                 </div>
             </Card>
         </div>
@@ -39,11 +45,13 @@
 
 <script>
 import Cookies from 'js-cookie';
-import { Login } from '@/api/login'
+import { Login, UnifiedAuth } from '@/api/login'
 
 export default {
     data () {
         return {
+            loginType: '',
+            authCode:'',
             form: {
                 userName: '',
                 password: ''
@@ -62,58 +70,70 @@ export default {
     created() {
         let user = localStorage.getItem('user')
         this.form.userName = user ? user : 'admin'
+        let logintype = localStorage.getItem('logintype')
+        this.loginType = logintype ? logintype : 'common'
     },
 
     methods: {
         handleSubmit () {
             this.$refs.loginForm.validate((valid) => {
                 if (valid) {
-                    this.login(this.form.userName, this.form.password) 
-                    /* this.$store.commit('setAvator', 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3448484253,3685836170&fm=27&gp=0.jpg');
-                    if (this.form.userName === 'iview_admin') {
-                        Cookies.set('access', 0);
-                    } else {
-                        Cookies.set('access', 1);
+                    if (this.loginType == 'unified') {
+                        this.Unified(this.form.userName, this.form.password) 
                     }
-                    this.$router.push({
-                        name: 'home_index'
-                    });
-                    */
+                    this.login(this.form.userName, this.form.password) 
                 }
             });
         },
-
+        trim(str)
+        { 
+            return str.replace(/(^\s*)|(\s*$)/g, ""); 
+        },
         login (user, password) {
-            const data = { username: user, password: password }
-            Login(data)
-            .then(response => {
-                let token = response.data.token
-                // cookie写入信息
-                Cookies.set('token',token)                           
-                Cookies.set('user', user);
-                Cookies.set('password', password);
-                localStorage.setItem('user', user)
-                // 跳转到首页
-                this.$router.push({
-                    name: 'otherRouter'
-                }); 
-                // 显示提示信息
-                this.$Message.success({
-                    content: '登陆成功',
-                    duration: 3
-                });
-
-            })
-            .catch(error => {
+            if(this.trim(user)!='admin'){
                 this.$Message.error({
-                    content: '登录失败（' + error.request.response + '）',
+                    content: '非admin用户不允许登录',
                     duration: 5
                 });
+            }else{
+                const data = { username: user, password: password }
+                Login(data)
+                .then(response => {
+                    let token = response.data.token
+                    // cookie写入信息
+                    Cookies.set('token',token)                           
+                    Cookies.set('user', user);
+                    //Cookies.set('password', password);
+                    localStorage.setItem('user', user)
+                    localStorage.setItem('logintype', this.loginType)
+                    // 跳转到首页
+                    this.$router.push({
+                        name: 'otherRouter'
+                    }); 
+                    // 显示提示信息
+                    this.$Message.success({
+                        content: '登陆成功',
+                        duration: 3
+                    });
 
-            })
+                })
+                .catch(error => {
+                    this.$Message.error({
+                        content: '登录失败（用户名或密码错误）',
+                        duration: 5
+                    });
 
+                })
+            }
         },
 
+        Unified (user, password) {
+            const data = { username: user, password: password }
+            UnifiedAuth(data)
+            .then(response => {
+
+            })
+        }
 
     }
 };
