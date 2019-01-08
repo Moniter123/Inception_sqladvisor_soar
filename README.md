@@ -78,19 +78,6 @@
     - iview 2.8
     - iview-admin 1.3
 
-## 平台使用
-- [在线访问](http://47.105.160.188:8080)
-  
-|  角色 | 账号 | 密码 |
-| --- | --- | --- |
-|  研发| 武松 | see |
-|  经理| 宋江 | see |
-|  总监| 晁盖 | see |
-|  管理员| see | see |
-
-## 安装文档
-- [安装文档](https://github.com/myide/see/blob/master/frontend/src/files/install.md)
-
 ## 界面展示
 
 - Dashboard审计
@@ -128,10 +115,6 @@
 - 用户管理
 
 ![image](https://github.com/myide/see/blob/master/frontend/src/images/github/user.png)
-
-
-## 交流学习
-- QQ群 630791951
 
 ## License
 
